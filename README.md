@@ -6,3 +6,7 @@ To ease the understanding it is divided into chapters.
 ## chapter-2 folder
 
 In this folder you can find the code resulting from the article [Hexagonal architecture in Rust: the domain](https://medium.com/@lucorset/hexagonal-architecture-in-rust-the-domain-24e9a9a6f2c4)
+
+## chapter-3 folder
+
+In this folder you can find the code resulting from the article [Hexagonal architecture in Rust: the use cases](https://medium.com/@lucorset/hexagonal-architecture-in-rust-the-use-cases-7d5a88bd0a4)
