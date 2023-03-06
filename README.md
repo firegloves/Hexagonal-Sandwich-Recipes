@@ -10,3 +10,7 @@ In this folder you can find the code resulting from the article [Hexagonal archi
 ## chapter-3 folder
 
 In this folder you can find the code resulting from the article [Hexagonal architecture in Rust: the use cases](https://medium.com/@lucorset/hexagonal-architecture-in-rust-the-use-cases-7d5a88bd0a4)
+
+## chapter-4 folder
+
+In this folder you can find the code resulting from the article [Hexagonal architecture in Rust: driving adapters](https://medium.com/@lucorset/hexagonal-architecture-in-rust-driving-adapters-f66f71bb3dd1)
