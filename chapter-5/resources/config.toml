@@ -1,0 +1,8 @@
+[persistence]
+    host = "localhost"
+    port = 27017
+    user = "root"
+    password = "s4ndw1chr3c1p3RUS7"
+    database = "sandwich-recipes"
+    schema_collection = "recipes"
+    auth_db = "admin"

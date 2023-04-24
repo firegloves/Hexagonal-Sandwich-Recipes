@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "ed5aab53-a4e1-4d97-9f37-7f01fdab5d93",
+		"name": "Sandwich recipes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14179371"
+	},
+	"item": [
+		{
+			"name": "Find all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}sandwiches?ingredients[]=Meat",
+					"host": [
+						"{{api_url}}sandwiches"
+					],
+					"query": [
+						{
+							"key": "ingredients[]",
+							"value": "Meat"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}sandwiches/63c71056e03063c83ea24fd9",
+					"host": [
+						"{{api_url}}sandwiches"
+					],
+					"path": [
+						"63c71056e03063c83ea24fd9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}sandwiches/63c95232315361bd8c6175d6",
+					"host": [
+						"{{api_url}}sandwiches"
+					],
+					"path": [
+						"63c95232315361bd8c6175d6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Hamburger2\",\n    \"ingredients\": [\"Meat\", \"Cheese\"],\n    \"recype_type\": \"Sandwich\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}sandwiches",
+					"host": [
+						"{{api_url}}sandwiches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"63c71056e03063c83ea24fd9\",\n    \"name\": \"Hamburger\",\n    \"ingredients\": [\n           \"Meat\",\n           \"Cheese\"\n    ],\n    \"sandwich_type\": \"Veggie\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}sandwiches",
+					"host": [
+						"{{api_url}}sandwiches"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_url",
+			"value": "http://localhost:8080/recipes/api/v1/",
+			"type": "string"
+		}
+	]
+}
