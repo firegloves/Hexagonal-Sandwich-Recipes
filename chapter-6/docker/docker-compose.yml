@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+
+  mongo:
+    image: mongo:6.0.2
+    ports:
+      - '27017:27017'
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: s4ndw1chr3c1p3RUS7
+      MONGO_INITDB_DATABASE: sandwich-recipes
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  mariadb:
+    image: mariadb:10.11.2-jammy
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: m4r14dbs4ndw1ch3s
+    volumes:
+      - ./mariadb-init/:/docker-entrypoint-initdb.d/:ro
