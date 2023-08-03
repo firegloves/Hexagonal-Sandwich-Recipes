@@ -21,4 +21,4 @@ In this folder you can find the code resulting from the article [Hexagonal archi
 
 ## chapter-6 folder
 
-In this folder you can find the code resulting from the article [Hexagonal architecture in Rust: driven adapters](https://medium.com/@lucorset/hexagonal-architecture-in-rust-driven-adapters-ab02ed335dc5)
+In this folder you can find the code resulting from the article [Hexagonal architecture in Rust: Adapter Switching](https://medium.com/@lucorset/hexagonal-architecture-in-rust-adapter-switching-f4a264ad246f)
