@@ -21,4 +21,8 @@ In this folder you can find the code resulting from the article [Hexagonal archi
 
 ## chapter-6 folder
 
-In this folder you can find the code resulting from the article [Hexagonal architecture in Rust: Adapter Switching](https://medium.com/@lucorset/hexagonal-architecture-in-rust-adapter-switching-f4a264ad246f)
+In this folder you can find the code resulting from the article [Hexagonal Architecture in Rust: Driven Adapter Switching — CQRS](https://medium.com/@lucorset/hexagonal-architecture-in-rust-adapter-switching-f4a264ad246f)
+
+## chapter-7 folder
+
+In this folder you can find the code resulting from the article [Hexagonal Architecture in Rust: Driving Adapters Switching — GraphQL](https://medium.com/@lucorset/hexagonal-architecture-in-rust-driving-adapters-switching-graphql-5bc64b14f03)

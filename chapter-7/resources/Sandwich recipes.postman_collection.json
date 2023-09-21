@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "1d26ee69-f2c9-40ae-90aa-87bb8dc56ea3",
+		"name": "Sandwich recipes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14179371"
+	},
+	"item": [
+		{
+			"name": "Find all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}sandwiches?ingredients[]=Meat",
+					"host": [
+						"{{api_url}}sandwiches"
+					],
+					"query": [
+						{
+							"key": "ingredients[]",
+							"value": "Meat"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GraphQL",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\n    sandwiches {\n        name\n        ingredients\n        stars\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/graphql",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Emulate event sourcing",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/emulate_event_sourcing",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"emulate_event_sourcing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}sandwiches/64c3b6176d63785962de6c5a",
+					"host": [
+						"{{api_url}}sandwiches"
+					],
+					"path": [
+						"64c3b6176d63785962de6c5a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}sandwiches/63c95232315361bd8c6175d6",
+					"host": [
+						"{{api_url}}sandwiches"
+					],
+					"path": [
+						"63c95232315361bd8c6175d6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"CheeseHamburger\",\n    \"ingredients\": [\"Meat\", \"Cheese\"],\n    \"sandwich_type\": \"Meat\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}sandwiches",
+					"host": [
+						"{{api_url}}sandwiches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"64c3b6176d63785962de6c5a\",\n    \"name\": \"Hamburger\",\n    \"ingredients\": [\n           \"Meat\",\n           \"Cheese\"\n    ],\n    \"sandwich_type\": \"Veggie\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}sandwiches",
+					"host": [
+						"{{api_url}}sandwiches"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/recipes/api/v1/",
+			"type": "string"
+		},
+		{
+			"key": "api_url",
+			"value": "{{base_url}}/api/v1/",
+			"type": "string"
+		}
+	]
+}
