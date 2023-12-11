@@ -75,7 +75,7 @@ pub enum SandwichType {
     Meat,
     Fish,
     Veggie,
-    Undefined
+    Undefined,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -106,7 +106,6 @@ impl Entity for Sandwich {}
 
 impl Sandwich {
     pub fn new(id: String, name: String, ingredients: Vec<String>, sandwich_type: SandwichType, stars: i32) -> Result<Self, String> {
-
         let sandwich_id = SandwichId::try_from(id)?;
         let sandwich_name = SandwichName::try_from(name)?;
         let sandwich_ingrs = SandwichIngredients::try_from(ingredients)?;
@@ -117,7 +116,7 @@ impl Sandwich {
             name: sandwich_name,
             ingredients: sandwich_ingrs,
             sandwich_type,
-            stars: sandwich_stars
+            stars: sandwich_stars,
         })
     }
 
@@ -155,17 +154,17 @@ impl fmt::Display for Sandwich {
 
 #[cfg(test)]
 mod tests {
-    use crate::tests::test_utils::shared::{assert_on_ingredients, SANDWICH_ID, SANDWICH_NAME, SANDWICH_TYPE, stub_ingredients};
+    use crate::tests::test_utils::shared::{assert_on_ingredients, SANDWICH_ID, SANDWICH_NAME, SANDWICH_STARS, SANDWICH_TYPE, stub_ingredients};
 
     use super::*;
 
     #[test]
     fn should_create_and_print_the_expected_sandwich() {
-
         let hot_dog = Sandwich::new(SANDWICH_ID.to_string(),
                                     SANDWICH_NAME.to_string(),
                                     stub_ingredients(),
-                                    SANDWICH_TYPE)
+                                    SANDWICH_TYPE,
+                                    SANDWICH_STARS)
             .unwrap();
 
         assert_eq!(hot_dog.id().value().as_ref().unwrap(), SANDWICH_ID);
@@ -175,11 +174,11 @@ mod tests {
 
     #[test]
     fn should_fail_without_a_name_or_ingredients() {
-
         let err_sandwich = Sandwich::new("".to_string(),
                                          "".to_string(),
                                          vec!["Wurst".to_string(), "Ketchup".to_string()],
-                                         SANDWICH_TYPE);
+                                         SANDWICH_TYPE,
+                                         SANDWICH_STARS);
 
         assert_eq!(err_sandwich.is_err(), true);
         assert_eq!(err_sandwich.unwrap_err(), "Any sandwich must have a name");
@@ -187,7 +186,8 @@ mod tests {
         let err_sandwich = Sandwich::new(SANDWICH_ID.to_string(),
                                          SANDWICH_NAME.to_string(),
                                          vec![],
-                                         SANDWICH_TYPE);
+                                         SANDWICH_TYPE,
+                                         SANDWICH_STARS);
 
         assert_eq!(err_sandwich.is_err(), true);
         assert_eq!(err_sandwich.unwrap_err(), "Any sandwich must have at least one ingredient");

@@ -236,14 +236,14 @@ mod tests {
 
     use crate::driven::repository::mongo_repository::SandwichMongoRepository;
     use crate::tests::test_utils::shared;
-    use crate::tests::test_utils::shared::{assert_on_ingredients, CHEESEBURGER_NAME, create_default_sandwich, delete_sandwich_from_sandwich_response, delete_sandwiches_from_list_response, empty_find_sandwich, get_testing_persistence_config, SANDWICH_NAME, SANDWICH_TYPE, stub_cheeseburger, stub_cheeseburger_ingredients, stub_ingredients, stub_sandwich};
+    use crate::tests::test_utils::shared::{assert_on_ingredients, CHEESEBURGER_NAME, create_default_sandwich, delete_sandwich_from_sandwich_response, delete_sandwiches_from_list_response, empty_find_sandwich, get_testing_mongodb_config, SANDWICH_NAME, SANDWICH_TYPE, stub_cheeseburger, stub_cheeseburger_ingredients, stub_ingredients, stub_sandwich};
 
     use super::*;
 
     #[serial]
     #[actix_web::test]
     async fn should_find_all_sandwiches() {
-        let repo = SandwichMongoRepository::new(&get_testing_persistence_config()).unwrap();
+        let repo = SandwichMongoRepository::new(&get_testing_mongodb_config()).unwrap();
         create_default_sandwich(&repo).await;
         shared::create_sandwich(&repo, stub_cheeseburger()).await;
 
@@ -266,7 +266,7 @@ mod tests {
     #[serial]
     #[actix_web::test]
     async fn should_create_a_sandwich() {
-        let repo = SandwichMongoRepository::new(&get_testing_persistence_config()).unwrap();
+        let repo = SandwichMongoRepository::new(&get_testing_mongodb_config()).unwrap();
 
         let create_req = CreateSandwichRequest {
             name: SANDWICH_NAME.to_string(),
@@ -291,7 +291,7 @@ mod tests {
     #[serial]
     #[actix_web::test]
     async fn should_update_a_sandwich() {
-        let repo = SandwichMongoRepository::new(&get_testing_persistence_config()).unwrap();
+        let repo = SandwichMongoRepository::new(&get_testing_mongodb_config()).unwrap();
         let sandwich = create_default_sandwich(&repo).await;
 
         let updt_req = UpdateSandwichRequest {
@@ -300,7 +300,7 @@ mod tests {
             ingredients: stub_cheeseburger_ingredients(),
             sandwich_type: SandwichType::Veggie,
         };
-        let expected = Sandwich::new(updt_req.id.clone(), updt_req.name.clone(), updt_req.ingredients.clone(), updt_req.sandwich_type.clone()).unwrap();
+        let expected = Sandwich::new(updt_req.id.clone(), updt_req.name.clone(), updt_req.ingredients.clone(), updt_req.sandwich_type.clone(), 0).unwrap();
 
         let resp = execute::<>(&repo,
                                "/",
@@ -320,7 +320,7 @@ mod tests {
     #[actix_web::test]
     async fn should_find_a_sandwich_by_id() {
 
-        let repo = SandwichMongoRepository::new(&get_testing_persistence_config()).unwrap();
+        let repo = SandwichMongoRepository::new(&get_testing_mongodb_config()).unwrap();
         let sandwich = create_default_sandwich(&repo).await;
         let uri_to_call = format!("/{}", sandwich.id().value().as_ref().unwrap());
 
@@ -342,7 +342,7 @@ mod tests {
     #[actix_web::test]
     async fn should_delete_a_sandwich() {
 
-        let repo = SandwichMongoRepository::new(&get_testing_persistence_config()).unwrap();
+        let repo = SandwichMongoRepository::new(&get_testing_mongodb_config()).unwrap();
         let sandwich = create_default_sandwich(&repo).await;
 
         let sand_list = repo.find_all(empty_find_sandwich()).await.unwrap();

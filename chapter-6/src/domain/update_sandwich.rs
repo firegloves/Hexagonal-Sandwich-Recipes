@@ -37,13 +37,21 @@ pub async fn update_sandwich<'a, T: Repository<Sandwich>>(repository: web::Data<
 
 #[cfg(test)]
 mod tests {
+
+    use actix_web::web::Data;
+    use crate::helpers::string_vec_to_vec_str;
+    use crate::tests::test_utils::shared::{stub_cheeseburger, get_testing_mongodb_config, match_and_assert_on_sandwich, SANDWICH_NAME, SANDWICH_STARS, SANDWICH_TYPE, stub_sandwich, stub_ingredients, assert_on_sandwich, SANDWICH_ID};
+    use crate::tests::sandwich_repo_double::repo_doble::SandwichRepoDouble;
+
+    use super::*;
+
     #[actix_rt::test]
     async fn should_update_an_existing_sandwich() {
 
         let ingrs = stub_ingredients();
         let ingrs = string_vec_to_vec_str(&ingrs);
 
-        let repo = SandwichRepoDouble::new(&get_testing_persistence_config()).unwrap();
+        let repo = SandwichRepoDouble::new(&get_testing_mongodb_config()).unwrap();
 
         let s = update_sandwich(Data::new(repo), SANDWICH_ID, SANDWICH_NAME, &ingrs, &SANDWICH_TYPE).await.unwrap();
 
@@ -56,7 +64,7 @@ mod tests {
         let ingrs = stub_ingredients();
         let ingrs = string_vec_to_vec_str(&ingrs);
 
-        let mut repo = SandwichRepoDouble::new(&get_testing_persistence_config()).unwrap();
+        let mut repo = SandwichRepoDouble::new(&get_testing_mongodb_config()).unwrap();
         repo.set_error(true);
 
         let res = update_sandwich(Data::new(repo), SANDWICH_ID, SANDWICH_NAME, &ingrs, &SANDWICH_TYPE).await;

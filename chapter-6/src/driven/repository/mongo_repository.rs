@@ -268,7 +268,7 @@ fn create_connection_uri(config: &MongoDBConfig) -> String {
 
 #[cfg(test)]
 mod tests {
-    use crate::tests::test_utils::shared::{get_testing_mongodb_config, match_and_assert_on_sandwich, SANDWICH_TYPE, stub_sandwich};
+    use crate::tests::test_utils::shared::{get_testing_mongodb_config, match_and_assert_on_sandwich, SANDWICH_STARS, SANDWICH_TYPE, stub_sandwich};
     use serial_test::serial;
 
     use super::*;
@@ -277,7 +277,7 @@ mod tests {
     #[serial]
     fn should_create_the_expected_mongodb_repo() {
         let config = get_testing_mongodb_config();
-        let repo: SandwichMongoRepository = Repository::<Sandwich>::new(&config).unwrap();
+        let repo: SandwichMongoRepository = SandwichMongoRepository::new(&config).unwrap();
         assert_eq!(repo.conn_uri, "mongodb://root:s4ndw1chr3c1p3RUS7@localhost:27017/admin");
     }
 
@@ -285,14 +285,14 @@ mod tests {
     fn should_return_error_with_an_invalid_config() {
         let mut config = get_testing_mongodb_config();
         config.host = "".to_string();
-        let result: Result<SandwichMongoRepository, String> = Repository::<Sandwich>::new(&config);
+        let result: Result<SandwichMongoRepository, String> = SandwichMongoRepository::new(&config);
         assert_eq!(result.is_err(), true);
     }
 
     #[serial]
     #[actix_rt::test]
     async fn should_create_a_sandwich() {
-        let repo: SandwichMongoRepository = Repository::<Sandwich>::new(&get_testing_mongodb_config()).unwrap();
+        let repo: SandwichMongoRepository = SandwichMongoRepository::new(&get_testing_mongodb_config()).unwrap();
 
         let res = repo.create(stub_sandwich(false)).await;
         let expected = stub_sandwich(false);
@@ -304,7 +304,7 @@ mod tests {
     #[serial]
     #[actix_rt::test]
     async fn should_find_one_sandwich() {
-        let repo: SandwichMongoRepository = Repository::<Sandwich>::new(&get_testing_mongodb_config()).unwrap();
+        let repo: SandwichMongoRepository = SandwichMongoRepository::new(&get_testing_mongodb_config()).unwrap();
 
         repo.create(stub_sandwich(false)).await.unwrap();
 
@@ -325,7 +325,7 @@ mod tests {
     #[serial]
     #[actix_rt::test]
     async fn should_update_a_sandwich() {
-        let repo: SandwichMongoRepository = Repository::<Sandwich>::new(&get_testing_mongodb_config()).unwrap();
+        let repo: SandwichMongoRepository = SandwichMongoRepository::new(&get_testing_mongodb_config()).unwrap();
 
         let sandwich = stub_sandwich(false);
         let created = repo.create(sandwich).await.unwrap();
@@ -333,7 +333,7 @@ mod tests {
         let new_name = "Hamburger";
         let new_ingredients = vec![String::from("Meat"), String::from("Ketchup"), String::from("Mayo")];
         let updating_sandwich = Sandwich::new(created.id().value().as_ref().unwrap().to_string(), String::from(new_name), new_ingredients.clone(),
-                                              SANDWICH_TYPE).unwrap();
+                                              SANDWICH_TYPE, SANDWICH_STARS).unwrap();
 
         let res = repo.update(updating_sandwich.clone()).await;
 
@@ -344,7 +344,7 @@ mod tests {
     #[serial]
     #[actix_rt::test]
     async fn should_delete_a_doc_by_id() {
-        let repo: SandwichMongoRepository = Repository::<Sandwich>::new(&get_testing_mongodb_config()).unwrap();
+        let repo: SandwichMongoRepository = SandwichMongoRepository::new(&get_testing_mongodb_config()).unwrap();
 
         let created = repo.create(stub_sandwich(false)).await.unwrap();
 

@@ -1,4 +1,4 @@
-[persistence]
+[mongo_db]
     host = "localhost"
     port = 27017
     user = "root"
@@ -6,3 +6,10 @@
     database = "sandwich-recipes"
     schema_collection = "test_recipes"
     auth_db = "admin"
+
+[maria_db]
+    host = "127.0.0.1"
+    port = 3306
+    user = "root"
+    password = "m4r14dbs4ndw1ch3s"
+    database = "sandwich-recipes"

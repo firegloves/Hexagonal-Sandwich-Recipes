@@ -4,7 +4,7 @@ pub mod repo_doble {
 
     use async_trait::async_trait;
 
-    use crate::config::PersistenceConfig;
+    use crate::config::MongoDBConfig;
     use crate::domain::sandwich::Sandwich;
     use crate::driven::repository::{FindSandwich, RepoCreateError, RepoDeleteError, RepoFindAllError, RepoSelectError, Repository, RepoUpdateError};
     use crate::tests::test_utils::shared::{SANDWICH_ID, stub_cheeseburger, stub_sandwich};
@@ -18,6 +18,14 @@ pub mod repo_doble {
     }
 
     impl SandwichRepoDouble {
+
+        pub fn new(_config: &MongoDBConfig) -> Result<Self, String> where Self: Sized {
+            Ok(SandwichRepoDouble {
+                has_error: Wrap(RefCell::from(false)),
+            })
+        }
+
+
         pub fn set_error(&mut self, value: bool) {
             *self.has_error.0.borrow_mut() = value;
         }
@@ -25,11 +33,6 @@ pub mod repo_doble {
 
     #[async_trait]
     impl Repository<Sandwich> for SandwichRepoDouble {
-        fn new(_config: &PersistenceConfig) -> Result<Self, String> where Self: Sized {
-            Ok(SandwichRepoDouble {
-                has_error: Wrap(RefCell::from(false)),
-            })
-        }
 
         async fn create(&self, sandwich: Sandwich) -> Result<Sandwich, RepoCreateError> {
             if self.has_error.0.take() {
@@ -39,7 +42,8 @@ pub mod repo_doble {
             let s = Sandwich::new(String::from(SANDWICH_ID),
                                   sandwich.name().value().clone(),
                                   sandwich.ingredients().value().clone(),
-                                  sandwich.sandwich_type().clone())
+                                  sandwich.sandwich_type().clone(),
+                                  0)
                 .unwrap();
 
             Ok(s)

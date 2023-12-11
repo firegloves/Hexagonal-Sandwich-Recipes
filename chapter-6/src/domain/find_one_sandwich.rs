@@ -30,10 +30,18 @@ pub async fn find_one_sandwich<'a, T: Repository<Sandwich>>(repository: web::Dat
 
 #[cfg(test)]
 mod tests {
+
+    use actix_web::web::Data;
+    use crate::helpers::string_vec_to_vec_str;
+    use crate::tests::test_utils::shared::{stub_cheeseburger, get_testing_mongodb_config, match_and_assert_on_sandwich, SANDWICH_NAME, SANDWICH_STARS, SANDWICH_TYPE, stub_sandwich, stub_ingredients, assert_on_sandwich, SANDWICH_ID};
+    use crate::tests::sandwich_repo_double::repo_doble::SandwichRepoDouble;
+
+    use super::*;
+
     #[actix_rt::test]
     async fn should_find_the_expected_sandwich() {
 
-        let repo = SandwichRepoDouble::new(&get_testing_persistence_config()).unwrap();
+        let repo = SandwichRepoDouble::new(&get_testing_mongodb_config()).unwrap();
 
         match find_one_sandwich(Data::new(repo), "", SANDWICH_NAME, &vec![]).await {
             Ok(s) => assert_on_sandwich(s, &stub_sandwich(false), false),
@@ -44,7 +52,7 @@ mod tests {
     #[actix_rt::test]
     async fn should_not_find_the_expected_sandwich() {
 
-        let mut repo = SandwichRepoDouble::new(&get_testing_persistence_config()).unwrap();
+        let mut repo = SandwichRepoDouble::new(&get_testing_mongodb_config()).unwrap();
         repo.set_error(true);
 
         match find_one_sandwich(Data::new(repo), "", SANDWICH_NAME, &vec![]).await {
