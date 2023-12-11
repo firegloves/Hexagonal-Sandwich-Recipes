@@ -5,7 +5,6 @@ use crate::config::PersistenceConfig;
 use crate::domain::Entity;
 
 pub mod mongo_repository;
-pub mod sql_repository;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FindSandwich {
