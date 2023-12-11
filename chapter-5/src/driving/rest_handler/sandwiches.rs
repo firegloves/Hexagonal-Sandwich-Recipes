@@ -56,7 +56,6 @@ pub struct UpdateSandwichRequest {
     ))]
     pub ingredients: Vec<String>,
 
-    // TODO add validation for enum?
     pub sandwich_type: SandwichType,
 }
 

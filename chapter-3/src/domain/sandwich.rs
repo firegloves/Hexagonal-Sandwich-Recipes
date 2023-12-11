@@ -126,6 +126,7 @@ impl fmt::Display for Sandwich {
     }
 }
 
+#[cfg(test)]
 mod tests {
     use crate::tests::test_utils::shared::SANDWICH_TYPE;
 

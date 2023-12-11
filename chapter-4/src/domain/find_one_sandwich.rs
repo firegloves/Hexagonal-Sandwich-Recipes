@@ -10,7 +10,10 @@ pub enum FindOneError {
 pub fn find_one_sandwich<'a>(id: &'a str, name: &'a str, ingredients: &'a Vec<&str>) -> Result<Sandwich, FindOneError> {
 
     let ingredients = ingredients.iter().map(|item| item.to_string()).collect::<Vec<String>>();
-    let sandwich = Sandwich::new(id.to_string(), name.to_string(), ingredients, SandwichType::Meat).unwrap();
+    let sandwich = Sandwich::new(id.to_string(),
+                                 if name.is_empty() { "Hot dog".to_string() } else { name.to_string() },
+                                 if ingredients.len() == 0 { vec!["Wurst".to_string(), "Ketchup".to_string()] } else { ingredients },
+                                 SandwichType::Meat).unwrap();
 
     Ok(sandwich)
 }

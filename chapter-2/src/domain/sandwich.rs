@@ -126,6 +126,8 @@ impl fmt::Display for Sandwich {
     }
 }
 
+
+#[cfg(test)]
 mod tests {
     use super::*;
 

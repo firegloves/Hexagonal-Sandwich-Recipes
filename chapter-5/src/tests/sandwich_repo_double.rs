@@ -63,7 +63,6 @@ pub mod repo_doble {
 
         async fn update(&self, sandwich: Sandwich) -> Result<Sandwich, RepoUpdateError> {
             if self.has_error.0.take() {
-                //self.has_error.0.borrow_mut() = false;
                 return Err(RepoUpdateError::Unknown(String::from("Error occurred")));
             }
 
