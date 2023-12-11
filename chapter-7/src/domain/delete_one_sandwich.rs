@@ -24,11 +24,19 @@ pub async fn delete_one_sandwich<'a, T: Repository<Sandwich>>(repository: web::D
 
 #[cfg(test)]
 mod tests {
+
+    use actix_web::web::Data;
+    use crate::helpers::string_vec_to_vec_str;
+    use crate::tests::test_utils::shared::{stub_cheeseburger, get_testing_mongodb_config, match_and_assert_on_sandwich, SANDWICH_NAME, SANDWICH_STARS, SANDWICH_TYPE, stub_sandwich, stub_ingredients, assert_on_sandwich, SANDWICH_ID};
+    use crate::tests::sandwich_repo_double::repo_doble::SandwichRepoDouble;
+
+    use super::*;
+
     #[actix_rt::test]
     async fn should_delete_a_sandwich() {
 
         // GIVEN a repo
-        let repo = SandwichRepoDouble::new(&get_testing_persistence_config()).unwrap();
+        let repo = SandwichRepoDouble::new(&get_testing_mongodb_config()).unwrap();
 
         // WHEN I delete the hot dog
         let deleted = delete_one_sandwich(Data::new(repo), SANDWICH_ID).await;
@@ -41,7 +49,7 @@ mod tests {
     async fn should_not_delete_a_non_existing_sandwich() {
 
         // GIVEN a repo
-        let mut repo = SandwichRepoDouble::new(&get_testing_persistence_config()).unwrap();
+        let mut repo = SandwichRepoDouble::new(&get_testing_mongodb_config()).unwrap();
         // and the repo returns an error (e.g. non existing entity)
         repo.set_error(true);
 

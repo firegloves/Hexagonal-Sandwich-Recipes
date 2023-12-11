@@ -166,7 +166,7 @@ mod tests {
 
         let maria_db = config.maria_db;
 
-        assert_eq!("localhost", maria_db.host);
+        assert_eq!("127.0.0.1", maria_db.host);
         assert_eq!(3306, maria_db.port.unwrap());
         assert_eq!("root", maria_db.user);
         assert_eq!("m4r14dbs4ndw1ch3s", maria_db.password);
@@ -194,7 +194,7 @@ mod tests {
         let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         d.push("src/tests/test_config.toml");
         let config = parse_config(d);
-        let mongo_db = config.mongoDb;
+        let mongo_db = config.mongo_db;
 
         assert_eq!("my_host", mongo_db.host);
         assert_eq!(1111, mongo_db.port.unwrap());
@@ -204,7 +204,7 @@ mod tests {
         assert_eq!("simple_schema", mongo_db.schema_collection);
         assert_eq!("auth_admin", mongo_db.auth_db);
 
-        let maria_db = config.mongoDb;
+        let maria_db = config.maria_db;
 
         assert_eq!("maria_host", maria_db.host);
         assert_eq!(2222, maria_db.port.unwrap());

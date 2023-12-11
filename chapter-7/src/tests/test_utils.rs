@@ -5,7 +5,7 @@ pub mod shared {
     use actix_web::web::Data;
 
     use crate::{parse_local_config, Repository, SandwichMongoRepository};
-    use crate::config::{Config, parse_config, PersistenceConfig};
+    use crate::config::{Config, parse_config, MongoDBConfig};
     use crate::domain::sandwich::{Sandwich, SandwichType};
     use crate::driven::repository::FindSandwich;
     use crate::driving::rest_handler::sandwiches::SandwichResponse;
@@ -15,6 +15,7 @@ pub mod shared {
     pub const SANDWICH_NAME: &str = "Hot dog";
     pub const SANDWICH_TYPE: SandwichType = SandwichType::Meat;
     pub const CHEESEBURGER_NAME: &str = "Cheeseburger";
+    pub const SANDWICH_STARS: i32 = 5;
 
     //
     // ASSERTION HELPERS
@@ -48,7 +49,8 @@ pub mod shared {
         let hot_dog = Sandwich::new(sandwich_id.to_string(),
                                     sandwich_name.to_string(),
                                     stub_ingredients(),
-                                    SANDWICH_TYPE)
+                                    SANDWICH_TYPE,
+                                    SANDWICH_STARS)
             .unwrap();
 
         hot_dog
@@ -72,7 +74,8 @@ pub mod shared {
         Sandwich::new(String::from(""),
                       String::from(CHEESEBURGER_NAME),
                       ingredients.clone(),
-                      SANDWICH_TYPE)
+                      SANDWICH_TYPE,
+                      SANDWICH_STARS)
             .unwrap()
     }
 
@@ -90,7 +93,6 @@ pub mod shared {
     }
 
     pub async fn delete_sandwiches_from_list_response<'a, T: Repository<Sandwich>>(repo: &T, resp_vec: Vec<SandwichResponse>) {
-
         for sand_resp in resp_vec.iter() {
             delete_sandwich_from_sandwich_response(repo, &sand_resp).await;
         }
@@ -102,7 +104,7 @@ pub mod shared {
 
     pub fn create_sandwich_repo() -> SandwichMongoRepository {
         let config = parse_local_config();
-        <SandwichMongoRepository as Repository<Sandwich>>::new(&config.persistence).unwrap()
+        SandwichMongoRepository::new(&config.mongo_db).unwrap()
     }
 
     pub fn empty_find_sandwich() -> FindSandwich {
@@ -113,8 +115,8 @@ pub mod shared {
         }
     }
 
-    pub fn get_testing_persistence_config() -> PersistenceConfig {
-        get_testing_config().persistence
+    pub fn get_testing_mongodb_config() -> MongoDBConfig {
+        get_testing_config().mongo_db
     }
 
     pub fn get_testing_config() -> Config {
@@ -129,13 +131,13 @@ pub mod shared {
             Ok(sandwich) => {
                 assert!(sandwich.id().value().is_some());
                 assert_on_sandwich(expected, &sandwich, false);
-            },
+            }
             _ => unreachable!()
         };
     }
 
     pub fn double_repo_data() -> Data<SandwichRepoDouble> {
-        let repo = SandwichRepoDouble::new(&get_testing_persistence_config()).unwrap();
+        let repo = SandwichRepoDouble::new(&get_testing_mongodb_config()).unwrap();
         Data::new(repo)
     }
 }

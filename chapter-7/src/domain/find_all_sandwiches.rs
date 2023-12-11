@@ -28,10 +28,18 @@ pub async fn find_all_sandwiches<'a, T: Repository<Sandwich>>(repository: web::D
 
 #[cfg(test)]
 mod tests {
+
+    use actix_web::web::Data;
+    use crate::helpers::string_vec_to_vec_str;
+    use crate::tests::test_utils::shared::{stub_cheeseburger, get_testing_mongodb_config, match_and_assert_on_sandwich, SANDWICH_NAME, SANDWICH_STARS, SANDWICH_TYPE, stub_sandwich, stub_ingredients, assert_on_sandwich, SANDWICH_ID};
+    use crate::tests::sandwich_repo_double::repo_doble::SandwichRepoDouble;
+
+    use super::*;
+
     #[actix_rt::test]
     async fn should_find_all_sandwiches() {
 
-        let repo = SandwichRepoDouble::new(&get_testing_persistence_config()).unwrap();
+        let repo = SandwichRepoDouble::new(&get_testing_mongodb_config()).unwrap();
 
         let sand_list = find_all_sandwiches(Data::new(repo), "", &vec![]).await.unwrap();
 
@@ -44,7 +52,7 @@ mod tests {
     async fn should_not_find_all_sandwiches_while_the_repo_returns_error() {
 
         // GIVEN a repo
-        let mut repo = SandwichRepoDouble::new(&get_testing_persistence_config()).unwrap();
+        let mut repo = SandwichRepoDouble::new(&get_testing_mongodb_config()).unwrap();
         // and the repo returns an error
         repo.set_error(true);
 
